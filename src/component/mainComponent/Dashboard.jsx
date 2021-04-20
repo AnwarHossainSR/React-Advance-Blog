@@ -1,8 +1,13 @@
 import React from 'react'
+import Header from '../mainComponent/Header'
+import Sidebar from '../mainComponent/Sidebar'
+import Footer from '../mainComponent/Footer'
 
 const Main = () => {
     return (
       <>
+        <Header />
+        <Sidebar />
         <div className="content-wrapper">
           <div className="content-header">
             <div className="container-fluid">
@@ -74,6 +79,7 @@ const Main = () => {
             </div>
           </section>
         </div>
+        <Footer />
       </>
     );
 }

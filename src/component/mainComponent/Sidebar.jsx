@@ -1,31 +1,32 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
     return (
       <>
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
-          <a href="" className="brand-link">
+          <Link to="" className="brand-link">
             <img
-              src="dist/img/AdminLTELogo.png"
+              src={process.env.PUBLIC_URL+"/dist/img/AdminLTELogo.png"}
               alt="AdminLTE Logo"
               className="brand-image img-circle elevation-3"
               style={{ opacity: ".8" }}
             />
-            <span className="brand-text font-weight-light">AdminLTE 3</span>
-          </a>
+            <span className="brand-text font-weight-light">Super Admin</span>
+          </Link>
           <div className="sidebar">
             <div className="user-panel mt-3 pb-3 mb-3 d-flex">
               <div className="image">
                 <img
-                  src="dist/img/user2-160x160.jpg"
+                  src={process.env.PUBLIC_URL+"/dist/img/user2-160x160.jpg"}
                   className="img-circle elevation-2"
                   alt="User Image"
                 />
               </div>
               <div className="info">
-                <a href="#" className="d-block">
-                  Alexander Pierce
-                </a>
+                <Link to="#" className="d-block">
+                  Anwar Hossain
+                </Link>
               </div>
             </div>
             <nav className="mt-2">
@@ -35,26 +36,40 @@ const Sidebar = () => {
                 role="menu"
                 data-accordion="false"
               >
-                <li className="nav-item has-treeview menu-open">
-                  <a href="#" className="nav-link active">
-                    <i className="nav-icon fas fa-tachometer-alt" />
+                <li className="nav-item">
+                  <Link to="/superadmin/dashboard" className="nav-link">
+                    <i className="nav-icon fas fa-th"></i>
                     <p>
                       Dashboard
+                    </p>
+                  </Link>
+                </li>
+                <li className="nav-item has-treeview menu-open">
+                  <Link to="/superadmin/category/manage" className="nav-link active">
+                  <i class="nav-icon fab fa-affiliatetheme"></i>
+                    <p>
+                      Category management
                       <i className="right fas fa-angle-left" />
                     </p>
-                  </a>
+                  </Link>
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
-                      <a href="" className="nav-link">
-                        <i className="far fa-circle nav-icon" />
+                      <Link
+                        to="/superadmin/category/manage"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
                         <p>Manage</p>
-                      </a>
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <a href="" className="nav-link">
-                        <i className="far fa-circle nav-icon" />
+                      <Link
+                        to="/superadmin/category/create"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
                         <p>Unpublished Category</p>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </li>

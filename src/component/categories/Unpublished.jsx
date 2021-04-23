@@ -4,10 +4,9 @@ import Sidebar from '../mainComponent/Sidebar'
 import Footer from '../mainComponent/Footer'
 import { Link } from 'react-router-dom'
 
-
-const Manage = () => {
+const Unpublished = () => {
     return (
-      <>
+        <>
         <Header />
         <Sidebar />
         <div className="content-wrapper">
@@ -98,7 +97,7 @@ const Manage = () => {
 
         <Footer />
       </>
-    );
+    )
 }
 
-export default Manage
+export default Unpublished

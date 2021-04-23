@@ -10,7 +10,7 @@ const Header = () => {
               <a
                 className="nav-link"
                 data-widget="pushmenu"
-                href="#"
+                to="/"
                 role="button"
               >
                 <i className="fas fa-bars" />
@@ -24,7 +24,7 @@ const Header = () => {
           </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item dropdown">
-              <a className="nav-link" data-toggle="dropdown" href="#">
+              <a className="nav-link" data-toggle="dropdown" to="/">
                 <i className="far fa-bell" />
                 <span className="badge badge-danger navbar-badge">15</span>
               </a>
@@ -33,32 +33,32 @@ const Header = () => {
                   15 Notifications
                 </span>
                 <div className="dropdown-divider" />
-                <a href="#" className="dropdown-item">
+                <a to="" className="dropdown-item">
                   <i className="fas fa-envelope mr-2" /> 4 new messages
                   <span className="float-right text-muted text-sm">3 mins</span>
                 </a>
                 <div className="dropdown-divider" />
-                <a href="#" className="dropdown-item">
+                <a to="/" className="dropdown-item">
                   <i className="fas fa-users mr-2" /> 8 friend requests
                   <span className="float-right text-muted text-sm">
                     12 hours
                   </span>
                 </a>
                 <div className="dropdown-divider" />
-                <a href="#" className="dropdown-item">
+                <a to="/" className="dropdown-item">
                   <i className="fas fa-file mr-2" /> 3 new reports
                   <span className="float-right text-muted text-sm">2 days</span>
                 </a>
                 <div className="dropdown-divider" />
-                <a href="#" className="dropdown-item dropdown-footer">
+                <a to="/" className="dropdown-item dropdown-footer">
                   See All Notifications
                 </a>
               </div>
             </li>
-            <li class="nav-item">
-              <div class="dropdown">
+            <li className="nav-item">
+              <div className="dropdown">
                 <button
-                  class="btn dropdown-toggle"
+                  className="btn dropdown-toggle"
                   type="button"
                   id="dropdownMenuButton"
                   data-toggle="dropdown"
@@ -67,8 +67,8 @@ const Header = () => {
                 >
                   Anwar Hossain
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link class="dropdown-item" to="/" onClick={() => localStorage.clear()}>
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <Link className="dropdown-item" to="/" onClick={() => localStorage.clear()}>
                     Logout
                   </Link>
                 </div>

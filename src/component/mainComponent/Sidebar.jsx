@@ -38,15 +38,15 @@ const Sidebar = () => {
               >
                 <li className="nav-item">
                   <Link to="/superadmin/dashboard" className="nav-link">
-                    <i className="nav-icon fas fa-th"></i>
+                    <i className="nav-icon text-primary fas fa-th"></i>
                     <p>
                       Dashboard
                     </p>
                   </Link>
                 </li>
-                <li className="nav-item has-treeview menu-open">
-                  <Link to="/superadmin/category/manage" className="nav-link active">
-                  <i class="nav-icon fab fa-affiliatetheme"></i>
+                <li className="nav-item has-treeview">
+                  <Link to="/superadmin/category/manage" className="nav-link">
+                  <i className="nav-icon text-primary fab fa-affiliatetheme"></i>
                     <p>
                       Category management
                       <i className="right fas fa-angle-left" />
@@ -64,7 +64,7 @@ const Sidebar = () => {
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/superadmin/category/create"
+                        to="/superadmin/category/unpublished"
                         className="nav-link"
                       >
                         <i className="far fa-circle nav-icon text-warning"></i>
@@ -72,6 +72,176 @@ const Sidebar = () => {
                       </Link>
                     </li>
                   </ul>
+                </li>
+                <li className="nav-item has-treeview">
+                  <Link to="/superadmin/category/manage" className="nav-link ">
+                  <i class="nav-icon text-primary fab fa-usps text-primary"></i>
+                    <p>
+                      Post management
+                      <i className="right fas fa-angle-left" />
+                    </p>
+                  </Link>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/manage"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Manage</p>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/unpublished"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Unpublished Category</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="nav-item has-treeview">
+                  <Link to="/superadmin/category/manage" className="nav-link ">
+                  <i class="nav-icon text-primary fas fa-users"></i>
+                    <p>
+                      User management
+                      <i className="right fas fa-angle-left" />
+                    </p>
+                  </Link>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/manage"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Manage</p>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/unpublished"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Unpublished Category</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="nav-item has-treeview">
+                  <Link to="/superadmin/category/manage" className="nav-link ">
+                  <i class="nav-icon text-primary fas fa-comment"></i>
+                    <p>
+                      Comments
+                      <i className="right fas fa-angle-left" />
+                    </p>
+                  </Link>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/manage"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Manage</p>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/unpublished"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Unpublished Category</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="nav-item has-treeview">
+                  <Link to="/superadmin/category/manage" className="nav-link ">
+                  <i class="nav-icon text-primary fas fa-envelope-open"></i>
+                    <p>
+                      Emailing
+                      <i className="right fas fa-angle-left" />
+                    </p>
+                  </Link>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/manage"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Manage</p>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/unpublished"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Unpublished Category</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="nav-item has-treeview">
+                  <Link to="/superadmin/category/manage" className="nav-link ">
+                  <i class="nav-icon text-primary fas fa-subscript"></i>
+                    <p>
+                      Subscriber Manage
+                      <i className="right fas fa-angle-left" />
+                    </p>
+                  </Link>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/manage"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Manage</p>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/category/unpublished"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Unpublished Category</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="nav-item">
+                  <Link to="/superadmin/dashboard" className="nav-link">
+                  <i class="nav-icon text-primary far fa-bell"></i>
+                    <p>
+                      Notification
+                      <span class="right badge badge-danger">0</span>
+                    </p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/superadmin/dashboard" className="nav-link">
+                  <i class="nav-icon text-primary fas fa-user-cog"></i>
+                    <p>
+                      Settings
+                    </p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/" onClick={() => localStorage.clear()} className="nav-link">
+                    <i className="nav-icon text-danger fas fa-sign-out-alt"></i>
+                    <p>
+                      Logout
+                    </p>
+                  </Link>
                 </li>
               </ul>
             </nav>

@@ -21,11 +21,11 @@ const Nav = () => {
                         Dashboard
                       </Link>
                     </li>
-                    <li className="nav-item active">
+                    {/* <li className="nav-item active">
                       <Link className="nav-link text-white" to="/" onClick={() => localStorage.clear()}>
                         Logout
                       </Link>
-                    </li>
+                    </li> */}
                   </>
                 ):(
                   <>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Nav from '../mainComponent/Home/Nav'
 import { Link, Redirect } from 'react-router-dom'
+import Protected from './Protrcted'
 import axios from "axios";
 
 
@@ -26,8 +27,7 @@ export default class Login extends Component {
       .then((response) => {
         if (response.data.message === "success") {
           localStorage.setItem('token',response.data.token)
-          //localStorage.setItem('user',JSON.stringify(response.data.user))
-          this.history.push("/superadmin/dashboard");
+          this.history.push("/");
         } else {
           this.setState({ message: response.data.message });
         }
@@ -37,8 +37,8 @@ export default class Login extends Component {
   };
   render() {
     if (localStorage.getItem('token')) {
-      return <Redirect to="/superadmin/dashboard" />
-    }
+      return <Redirect to="/" />
+  }
     return (
       <>
         <Nav />

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Nav from '../mainComponent/Home/Nav'
 import { Link, Redirect } from 'react-router-dom'
+import Protected from './Protrcted'
 import axios from "axios";
 
 
@@ -32,10 +33,11 @@ import axios from "axios";
   
   render() {
     if (localStorage.getItem('token')) {
-      return <Redirect to="/superadmin/dashboard" />
-    }
+      return <Redirect to="/" />
+  }
     return (
       <>
+        {/* <Protected /> */}
         <Nav />
         <div className="hold-transition register-page">
           <div className="register-box">

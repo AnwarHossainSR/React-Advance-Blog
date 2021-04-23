@@ -7,6 +7,9 @@ import Dashboard from './component/mainComponent/Dashboard'
 import Home from './component/mainComponent/Home'
 import Login from './component/auth/Login'
 import Register from './component/auth/Register'
+import Unpublished from './component/categories/Unpublished'
+import Protected from './component/auth/Protrcted';
+
 
 const App = () => {
   return (
@@ -15,9 +18,10 @@ const App = () => {
         <Route exact path="/"><Home /></Route>
         <Route exact path="/auth/login"><Login /></Route>
         <Route exact path="/auth/registration"><Register /></Route>
-        <Route exact path="/superadmin/dashboard"><Dashboard /></Route>
-        <Route exact path="/superadmin/category/manage"><Manage /></Route>
-        <Route exact path="/superadmin/category/create"><Create /></Route>
+        <Route exact path="/superadmin/dashboard"><Protected Cmp={Dashboard} /></Route>
+        <Route exact path="/superadmin/category/manage"><Protected Cmp={Manage} /></Route>
+        <Route exact path="/superadmin/category/unpublished"><Protected Cmp={Unpublished} /></Route>
+        <Route exact path="/superadmin/category/create"><Protected Cmp={Create} /></Route>
       </BrowserRouter>
     </div>
   )

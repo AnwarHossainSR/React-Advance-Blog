@@ -1,27 +1,72 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Nav from '../mainComponent/Home/Nav'
+import { Link, Redirect } from 'react-router-dom'
+import axios from "axios";
 
-const Login = () => {
+
+export default class Login extends Component {
+  constructor(props)
+    {
+      super()
+        this.state = {
+            'message': null,
+            'errors': null
+        };
+    }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      email: this.email,
+      password: this.password
+    };
+
+    axios
+      .post("login", data)
+      .then((response) => {
+        if (response.data.message === "success") {
+          localStorage.setItem('token',response.data.token)
+          //localStorage.setItem('user',JSON.stringify(response.data.user))
+          this.history.push("/superadmin/dashboard");
+        } else {
+          this.setState({ message: response.data.message });
+        }
+      }).catch((err) => {
+        this.setState({ errors: err.data });
+      });
+  };
+  render() {
+    if (localStorage.getItem('token')) {
+      return <Redirect to="/superadmin/dashboard" />
+    }
     return (
       <>
         <Nav />
         <div className="hold-transition login-page">
           <div className="login-box">
             <div className="login-logo">
-              <a href="../../index2.html">
-                <b>Admin</b>LTE
-              </a>
+              <Link to="/auth/login">
+                <b>Admin</b>LOGIN
+              </Link>
             </div>
-            {/* /.login-logo */}
             <div className="card">
               <div className="card-body login-card-body">
                 <p className="login-box-msg">Sign in to start your session</p>
-                <form action="../../index3.html" method="post">
+                <form onSubmit={this.handleSubmit}>
+                {this.state.message != null ? (
+                  <h4 className="text-center text-success">{this.state.message}</h4>
+                ) : (
+                  <p className="login-box-msg">Sign In</p>
+                )}
+                {this.state.errors != null ? (
+                  <h4 className="text-center text-danger">{this.errors.message}</h4>
+                ) : ''}
                   <div className="input-group mb-3">
                     <input
                       type="email"
                       className="form-control"
                       placeholder="Email"
+                      onChange={(e) => (this.email = e.target.value)}
                     />
                     <div className="input-group-append">
                       <div className="input-group-text">
@@ -34,6 +79,7 @@ const Login = () => {
                       type="password"
                       className="form-control"
                       placeholder="Password"
+                      onChange={(e) => (this.password = e.target.value)}
                     />
                     <div className="input-group-append">
                       <div className="input-group-text">
@@ -42,51 +88,29 @@ const Login = () => {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-8">
-                      <div className="icheck-primary">
-                        <input type="checkbox" id="remember" />
-                        <label htmlFor="remember">Remember Me</label>
-                      </div>
-                    </div>
-                    {/* /.col */}
-                    <div className="col-4">
+                    <div className="col-12">
                       <button
                         type="submit"
                         className="btn btn-primary btn-block"
                       >
-                        Sign In
+                        Login
                       </button>
                     </div>
-                    {/* /.col */}
                   </div>
                 </form>
-                <div className="social-auth-links text-center mb-3">
-                  <p>- OR -</p>
-                  <a href="#" className="btn btn-block btn-primary">
-                    <i className="fab fa-facebook mr-2" /> Sign in using
-                    Facebook
-                  </a>
-                  <a href="#" className="btn btn-block btn-danger">
-                    <i className="fab fa-google-plus mr-2" /> Sign in using
-                    Google+
-                  </a>
-                </div>
-                {/* /.social-auth-links */}
                 <p className="mb-1">
-                  <a href="forgot-password.html">I forgot my password</a>
+                  {/* <Link href="/auth/forgot">I forgot my password</Link> */}
                 </p>
                 <p className="mb-0">
-                  <a href="register.html" className="text-center">
+                  <Link to="/auth/registration" className="text-center">
                     Register a new membership
-                  </a>
+                  </Link>
                 </p>
               </div>
-              {/* /.login-card-body */}
             </div>
           </div>
         </div>
       </>
     );
+  }
 }
-
-export default Login

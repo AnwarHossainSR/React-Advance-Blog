@@ -4,6 +4,7 @@ import Sidebar from '../mainComponent/Sidebar'
 import Footer from '../mainComponent/Footer'
 
 const Main = () => {
+  
     return (
       <>
         <Header />

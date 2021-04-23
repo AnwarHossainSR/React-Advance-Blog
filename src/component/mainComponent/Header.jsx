@@ -68,7 +68,7 @@ const Header = () => {
                   Anwar Hossain
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <Link class="dropdown-item" to="/logout">
+                  <Link class="dropdown-item" to="/" onClick={() => localStorage.clear()}>
                     Logout
                   </Link>
                 </div>

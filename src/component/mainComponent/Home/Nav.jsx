@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Nav = () => {
+  
     return (
         <>
            <nav className="navbar navbar-expand-lg navbar-light bg-dark">
@@ -12,21 +13,36 @@ const Nav = () => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item active">
-                <Link className="nav-link text-white" to="/auth/login">
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item active">
-                <Link className="nav-link text-white" to="/auth/registration">
-                  Registration
-                </Link>
-              </li>
-              <li className="nav-item active">
-                <Link className="nav-link text-white" to="/superadmin/dashboard">
-                  Dashboard
-                </Link>
-              </li>
+              {
+                localStorage.getItem("token")?(
+                  <>
+                    <li className="nav-item active">
+                      <Link className="nav-link text-white" to="/superadmin/dashboard">
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li className="nav-item active">
+                      <Link className="nav-link text-white" to="/" onClick={() => localStorage.clear()}>
+                        Logout
+                      </Link>
+                    </li>
+                  </>
+                ):(
+                  <>
+                  <li className="nav-item active">
+                    <Link className="nav-link text-white" to="/auth/login">
+                      Login
+                    </Link>
+                  </li>
+                  <li className="nav-item active">
+                    <Link className="nav-link text-white" to="/auth/registration">
+                      Registration
+                    </Link>
+                  </li>
+                  </>
+                )
+              }
+              
             </ul>
           </div>
         </nav> 

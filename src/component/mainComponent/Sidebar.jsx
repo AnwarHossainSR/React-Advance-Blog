@@ -1,11 +1,27 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, Redirect } from 'react-router-dom'
+import axios from "axios";
 
 const Sidebar = () => {
+  const [user, setUser] = useState([]);
+  const [count, setCount] = useState([]);
+    useEffect(() => {
+      if (!localStorage.getItem('token')) {
+        return <Redirect to="/auth/login"/>
+      }
+      const getUsers = async () => {
+        const response = await axios
+          .get("user")
+          .catch((error) => console.log(error.resp));
+          setCount(response.data.notifications);
+          setUser(response.data.user);
+      };
+      getUsers();
+    }, [setUser])
     return (
       <>
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
-          <Link to="" className="brand-link">
+          <Link to="/" className="brand-link">
             <img
               src={process.env.PUBLIC_URL+"/dist/img/AdminLTELogo.png"}
               alt="AdminLTE Logo"
@@ -18,14 +34,14 @@ const Sidebar = () => {
             <div className="user-panel mt-3 pb-3 mb-3 d-flex">
               <div className="image">
                 <img
-                  src={process.env.PUBLIC_URL+"/dist/img/user2-160x160.jpg"}
+                  src={user.profileImage ? "http://localhost:8000/source/back/profile/"+user.profileImage :''}
                   className="img-circle elevation-2"
                   alt="User Image"
                 />
               </div>
               <div className="info">
-                <Link to="#" className="d-block">
-                  Anwar Hossain
+                <Link to="/superadmin/profile/settings" className="d-block">
+                  {user.name}
                 </Link>
               </div>
             </div>
@@ -74,8 +90,8 @@ const Sidebar = () => {
                   </ul>
                 </li>
                 <li className="nav-item has-treeview">
-                  <Link to="/superadmin/category/manage" className="nav-link ">
-                  <i class="nav-icon text-primary fab fa-usps text-primary"></i>
+                  <Link to="/superadmin/posts/manage" className="nav-link ">
+                  <i className="nav-icon text-primary fab fa-usps text-primary"></i>
                     <p>
                       Post management
                       <i className="right fas fa-angle-left" />
@@ -84,7 +100,7 @@ const Sidebar = () => {
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
                       <Link
-                        to="/superadmin/category/manage"
+                        to="/superadmin/posts/manage"
                         className="nav-link"
                       >
                         <i className="far fa-circle nav-icon text-warning"></i>
@@ -99,12 +115,19 @@ const Sidebar = () => {
                         <i className="far fa-circle nav-icon text-warning"></i>
                         <p>Unpublished Category</p>
                       </Link>
+                      <Link
+                        to="/posts/favourite"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Favourite Post</p>
+                      </Link>
                     </li>
                   </ul>
                 </li>
                 <li className="nav-item has-treeview">
-                  <Link to="/superadmin/category/manage" className="nav-link ">
-                  <i class="nav-icon text-primary fas fa-users"></i>
+                  <Link to="/superadmin/users/active" className="nav-link ">
+                  <i className="nav-icon text-primary fas fa-users"></i>
                     <p>
                       User management
                       <i className="right fas fa-angle-left" />
@@ -113,27 +136,45 @@ const Sidebar = () => {
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
                       <Link
-                        to="/superadmin/category/manage"
+                        to="/superadmin/users/active"
                         className="nav-link"
                       >
                         <i className="far fa-circle nav-icon text-warning"></i>
-                        <p>Manage</p>
+                        <p>Active Users</p>
                       </Link>
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/superadmin/category/unpublished"
+                        to="/superadmin/users/deactive"
                         className="nav-link"
                       >
                         <i className="far fa-circle nav-icon text-warning"></i>
-                        <p>Unpublished Category</p>
+                        <p>Deactive Users</p>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/users/roles"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>Manage Roles</p>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to="/superadmin/users/requests"
+                        className="nav-link"
+                      >
+                        <i className="far fa-circle nav-icon text-warning"></i>
+                        <p>User Request</p>
                       </Link>
                     </li>
                   </ul>
                 </li>
                 <li className="nav-item has-treeview">
-                  <Link to="/superadmin/category/manage" className="nav-link ">
-                  <i class="nav-icon text-primary fas fa-comment"></i>
+                  <Link to="/comments" className="nav-link ">
+                  <i className="nav-icon text-primary fas fa-comment"></i>
                     <p>
                       Comments
                       <i className="right fas fa-angle-left" />
@@ -142,27 +183,27 @@ const Sidebar = () => {
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
                       <Link
-                        to="/superadmin/category/manage"
+                        to="/comments"
                         className="nav-link"
                       >
                         <i className="far fa-circle nav-icon text-warning"></i>
-                        <p>Manage</p>
+                        <p>Comments</p>
                       </Link>
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/superadmin/category/unpublished"
+                        to="/superadmin/comments"
                         className="nav-link"
                       >
                         <i className="far fa-circle nav-icon text-warning"></i>
-                        <p>Unpublished Category</p>
+                        <p>Comments by me</p>
                       </Link>
                     </li>
                   </ul>
                 </li>
                 <li className="nav-item has-treeview">
-                  <Link to="/superadmin/category/manage" className="nav-link ">
-                  <i class="nav-icon text-primary fas fa-envelope-open"></i>
+                  <Link to="/superadmin/email/users" className="nav-link ">
+                  <i className="nav-icon text-primary fas fa-envelope-open"></i>
                     <p>
                       Emailing
                       <i className="right fas fa-angle-left" />
@@ -171,27 +212,18 @@ const Sidebar = () => {
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
                       <Link
-                        to="/superadmin/category/manage"
+                        to="/superadmin/email/users"
                         className="nav-link"
                       >
                         <i className="far fa-circle nav-icon text-warning"></i>
                         <p>Manage</p>
                       </Link>
                     </li>
-                    <li className="nav-item">
-                      <Link
-                        to="/superadmin/category/unpublished"
-                        className="nav-link"
-                      >
-                        <i className="far fa-circle nav-icon text-warning"></i>
-                        <p>Unpublished Category</p>
-                      </Link>
-                    </li>
                   </ul>
                 </li>
                 <li className="nav-item has-treeview">
-                  <Link to="/superadmin/category/manage" className="nav-link ">
-                  <i class="nav-icon text-primary fas fa-subscript"></i>
+                  <Link to="/superadmin/subscriber/manage" className="nav-link ">
+                  <i className="nav-icon text-primary fas fa-subscript"></i>
                     <p>
                       Subscriber Manage
                       <i className="right fas fa-angle-left" />
@@ -200,7 +232,7 @@ const Sidebar = () => {
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
                       <Link
-                        to="/superadmin/category/manage"
+                        to="/superadmin/subscriber/manage"
                         className="nav-link"
                       >
                         <i className="far fa-circle nav-icon text-warning"></i>
@@ -209,27 +241,27 @@ const Sidebar = () => {
                     </li>
                     <li className="nav-item">
                       <Link
-                        to="/superadmin/category/unpublished"
+                        to="/superadmin/subscriber/sendnews"
                         className="nav-link"
                       >
                         <i className="far fa-circle nav-icon text-warning"></i>
-                        <p>Unpublished Category</p>
+                        <p>Send News</p>
                       </Link>
                     </li>
                   </ul>
                 </li>
                 <li className="nav-item">
-                  <Link to="/superadmin/dashboard" className="nav-link">
-                  <i class="nav-icon text-primary far fa-bell"></i>
+                  <Link to="/superadmin/notification" className="nav-link">
+                  <i className="nav-icon text-primary far fa-bell"></i>
                     <p>
                       Notification
-                      <span class="right badge badge-danger">0</span>
+                      <span className="right badge badge-danger">{count}</span>
                     </p>
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/superadmin/dashboard" className="nav-link">
-                  <i class="nav-icon text-primary fas fa-user-cog"></i>
+                  <Link to="/superadmin/profile/settings" className="nav-link">
+                  <i className="nav-icon text-primary fas fa-user-cog"></i>
                     <p>
                       Settings
                     </p>

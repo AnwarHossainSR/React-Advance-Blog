@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Nav from '../mainComponent/Home/Nav'
 import { Link, Redirect } from 'react-router-dom'
-import Protected from './Protrcted'
 import axios from "axios";
 
 

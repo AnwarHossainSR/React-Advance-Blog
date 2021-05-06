@@ -12,7 +12,7 @@ function Protected(props) {
     
     return (
         <div>
-            <Cmp />
+            <Cmp user={props.user}/>
         </div>
     )
 }

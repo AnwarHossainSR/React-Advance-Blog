@@ -1,7 +1,24 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, Redirect } from 'react-router-dom'
+import axios from "axios";
 
 const Header = () => {
+  const [user, setUser] = useState([]);
+  const [count, setCount] = useState([]);
+
+    useEffect(() => {
+      if (!localStorage.getItem('token')) {
+        return <Redirect to="/auth/login"/>
+      }
+      const getUsers = async () => {
+        const response = await axios
+          .get("user")
+          .catch((error) => console.log(error.resp));
+          setCount(response.data.notifications);
+          setUser(response.data.user);
+      };
+      getUsers();
+    }, [])
     return (
       <>
         <nav className="main-header navbar navbar-expand navbar-white navbar-light">
@@ -26,11 +43,11 @@ const Header = () => {
             <li className="nav-item dropdown">
               <a className="nav-link" data-toggle="dropdown" to="/">
                 <i className="far fa-bell" />
-                <span className="badge badge-danger navbar-badge">15</span>
+                <span className="badge badge-danger navbar-badge">{count != '' ? count : 0}</span>
               </a>
               <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span className="dropdown-item dropdown-header">
-                  15 Notifications
+                  {count} Notifications
                 </span>
                 <div className="dropdown-divider" />
                 <a to="" className="dropdown-item">
@@ -65,7 +82,7 @@ const Header = () => {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  Anwar Hossain
+                  {user.name}
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <Link className="dropdown-item" to="/" onClick={() => localStorage.clear()}>

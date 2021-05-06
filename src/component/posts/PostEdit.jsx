@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Header from '../mainComponent/Header'
 import Sidebar from '../mainComponent/Sidebar'
 import Footer from '../mainComponent/Footer'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import Swal from "sweetalert2";
 
-const Add = () => {
+
+const PostEdit = () => {
+
+    const {id:eid}=useParams();
     const [categories, setCategories] = useState([]);
     const [tags,setTags]=useState([]);
     const [message,setMessage]=useState('');
@@ -15,52 +19,64 @@ const Add = () => {
     const [excerpt,setExcerpt]=useState('');
     const [content, setContent] = useState('');
     const [image,setImage]=useState('');
-
+    const [categoryId,setCategoryId]=useState('');
+    const [categoryName,setCategoryName]=useState('');
+    const [tagId,setTagId]=useState('');
+    const [tagName,setTagName]=useState('');
+    
     useEffect(async () => {
         axios
-        .get("posts/categorytags")
+        .get("posts/edit/"+eid)
         .then((response) => {
           setCategories(response.data.categories);
           setTags(response.data.tags);
+          setTitle(response.data.post.title);
+          setExcerpt(response.data.post.excerpt);
+          setImage(response.data.post.postImage);
+          setTag(response.data.tag);
+          setCategoryId(response.data.categoryId);
+          setCategoryName(response.data.categoryName);
+          setTagId(response.data.tagId);
+          setTagName(response.data.tagName);
+          setContent(response.data.post.content);
         }).catch((err) => {
           setMessage( err.data );
         });
     },[])
 
-    async function handleSubmit(){
-        const data = {
-            title: title,
-            excerpt: excerpt,
-            categories: category,
-            tags: tag,
-            content: content,
-            postImage: image
-          };
+    async function handleSubmit (e) {
+       e.preventDefault();
+       const data = {
+        title: title,
+        excerpt: excerpt,
+        categories: category,
+        tags: tag,
+        content: content,
+        postImage: image
+      };
         axios
-        .post("post/create", data)
-        .then((response) => {
+          .post("posts/update/"+eid, data)
+          .then((response) => {
             if(response.data.message === 'Success'){
-            Swal.fire("Success!", 'Post created successfully', "success");
+              Swal.fire("Success!", 'Post updated successfully', "success");
             }else{
-            setMessage(response.data.message)
+              setMessage(response.data.message)
             }
-        }).catch((err) => {
-            console.log({ errors: err.data });
-        }); 
-    }
-
-
+          }).catch((err) => {
+            console.log( err.data );
+          });
+      }; 
 
     return (
-      <>
-        <Header />
+        <>
+           <Header />
         <Sidebar />
         <div className="content-wrapper">
           <section className="content-header">
             <div className="container-fluid">
               <div className="row mb-2">
                 <div className="col-sm-6">
-                  <h1>Post Generate</h1>
+                  <h1>Post Edit</h1>
                 </div>
                 <div className="col-sm-6">
                   <ol className="breadcrumb float-sm-right">
@@ -86,6 +102,7 @@ const Add = () => {
                         <input
                           type="text"
                           className="form-control"
+                          defaultValue={title}
                           onChange={(e)=>setTitle(e.target.value)}
                           placeholder="Write a title "
                         />
@@ -95,6 +112,7 @@ const Add = () => {
                         <input
                           type="text"
                           className="form-control"
+                          defaultValue={excerpt}
                           onChange={(e)=>setExcerpt(e.target.value)}
                           placeholder="Write excerpt "
                         />
@@ -112,9 +130,11 @@ const Add = () => {
                             onChange={(e)=>setCategory(e.target.value)}
                             className="form-control"
                           >
-                          {categories.map((item, index) => (
-                            <option value={item.id} key={index}>{item.name}</option>
-                            ))}
+                            <option defaultValue={categoryId}>{categoryName}</option>
+                             {
+                                categories.map((item, index) => (
+                                <option value={item.id} key={index}>{item.name}</option>
+                            ))} 
                           </select>
                         </div>
                       </div>
@@ -122,6 +142,7 @@ const Add = () => {
                         <div className="form-line">
                           <label>Select Tag</label>
                           <select onChange={(e)=>setTag(e.target.value)} className="form-control">
+                          <option defaultValue={tagId}>{tagName}</option>
                           {tags.map((item, index) => (
                             <option value={item.id} key={index}>{item.name}</option>
                             ))}
@@ -141,6 +162,7 @@ const Add = () => {
                           <label>Content</label>
                           <textarea
                             onChange={(e)=>setContent(e.target.value)}
+                            defaultValue={content}
                             className="md-textarea form-control"
                             rows='3'
                           />
@@ -150,6 +172,7 @@ const Add = () => {
                             <label>Photo</label>
                             <input
                             type="file"
+                            defaultValue={image}
                             onChange={(e)=>setImage(e.target.value[0])}
                             className="form-control"
                             />
@@ -168,9 +191,9 @@ const Add = () => {
             </div>
           </section>
         </div>
-        <Footer />
-      </>
-    );
+        <Footer /> 
+        </>
+    )
 }
 
-export default Add
+export default PostEdit

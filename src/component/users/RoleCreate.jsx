@@ -7,22 +7,20 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 
-const Create = () => {
+const RoleCreate = () => {
   
   const [name,setName]=useState('');
-  const [image,setImage]=useState('');
   const [message,setMessage]=useState('');
   async function handleSubmits(e) {
     e.preventDefault();
     const data = {
-      name: name,
-      image: image
+      name: name
     };
     axios
-      .post("category/create", data)
+      .post("role/create", data)
       .then((response) => {
         if(response.data.message === 'Success'){
-          Swal.fire("Success!", 'Category created successfully', "success");
+          Swal.fire("Success!", 'ROle created successfully', "success");
         }else{
           setMessage(response.data.message)
         }
@@ -43,11 +41,11 @@ const Create = () => {
             <div className="container-fluid">
               <div className="row mb-2 ">
                 <div className="col-sm-6">
-                  <h1 className="m-0">Category Generate</h1>
+                  <h1 className="m-0">Role Generate</h1>
                 </div>
                 <div className="col-sm-6">
                   <h1 className="m-0 float-md-right">
-                    <Link to="/superadmin/category/manage">Category List</Link>
+                    <Link to="/superadmin/users/active">User List</Link>
                   </h1>
                 </div>
               </div>
@@ -64,15 +62,8 @@ const Create = () => {
                             <input
                               type="text"
                               className="form-control"
-                              value={name}
-                              placeholder="Write a Category Name"
+                              placeholder="Write a role Name"
                               onChange={(e)=>setName(e.target.value)} 
-                            />
-                          </div>
-                          <div className="form-group-file">
-                          <label>Upload Image</label>
-                            <input
-                              type="file" onChange={(e)=>setImage(e.target.files[0])} className="form-control"
                             />
                           </div>
                           <div className="card-footer">
@@ -94,4 +85,4 @@ const Create = () => {
     );
 }
 
-export default Create
+export default RoleCreate

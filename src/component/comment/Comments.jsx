@@ -12,16 +12,18 @@ import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery'; 
 
-const Unpublished = () => {
 
+const Comments = () => {
   const [data, setData] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [count, setCount] = useState([]);
+  const [author, setAuthor] = useState([]);
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       return <Redirect to="/auth/login"/>
     }
     getData();
   }, []);
-  const i =1;
 
   
   //Get Data
@@ -29,26 +31,45 @@ const Unpublished = () => {
     
     const getCategories = async () => {
       const response = await axios
-        .get("categories/unpublished")
+        .get("comments")
         .catch((error) => console.log(error.resp));
-        setData(response.data.categories);
+        setData(response.data.comments);
+        setPosts(response.data.posts);
+        setCount(response.data.count);
+        setAuthor(response.data.author);
         $(document).ready(function () {
           $("#example1").DataTable();
         });
     };
     getCategories();
   }
-
-  async function categoryPublish(id){
-    await axios
-        .get("category/show/"+id)
-        .catch((error) => console.log(error.resp));
-    Swal.fire("Published!", "Category has been published.", "success");
-    getData();
+  
+  async function deleteComment(id){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        successMessage(id);
+      }
+    });
   }
 
+  async function successMessage(id) {
+    await axios
+        .delete("comment/delete/"+id)
+        .catch((error) => console.log(error.resp));
+    Swal.fire("Deleted!", "Comment has been deleted.", "success");
+    getData();
+  }
+  
     return (
-        <>
+      <>
         <Header />
         <Sidebar />
         <div className="content-wrapper">
@@ -56,11 +77,11 @@ const Unpublished = () => {
             <div className="container-fluid">
               <div className="row mb-2 ">
                 <div className="col-sm-6">
-                  <h1 className="m-0">Category Page</h1>
+                  <h1 className="m-0">Comments Page</h1>
                 </div>
                 <div className="col-sm-6">
                   <ol className="breadcrumb float-sm-right">
-                      <li className="breadcrumb-item "><Link to="/superadmin/category/manage">Category</Link></li>
+                      <li className="breadcrumb-item "><Link to="/comments">Comments</Link></li>
                       <li className="breadcrumb-item active">Manage</li>
                   </ol>
               </div>
@@ -72,14 +93,7 @@ const Unpublished = () => {
                   <div className="col-12 ">
                     <div className="card">
                       <div className="card-header">
-                        <h3 className="card-title text-dark">Categories</h3>
-                        <Link
-                          to="/superadmin/category/create"
-                          className="card-title float-right"
-                        >
-                          <i className="fas fa-plus-circle nav-icon" />
-                          Add Category
-                        </Link>
+                        <h3 className="card-title text-dark">Total Comment : {count}</h3>
                       </div>
                       {/* /.card-header */}
                       <div className="card-body">
@@ -87,10 +101,9 @@ const Unpublished = () => {
                           <thead className="table-light">
                             <tr>
                               <th>#</th>
-                              <th>Name</th>
-                              <th>Slug</th>
-                              <th>Status</th>
-                              <th>Image</th>
+                              <th>Comment</th>
+                              <th>Comment By</th>
+                              <th>Post</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -98,26 +111,15 @@ const Unpublished = () => {
                           {data.map((item,index) => (
                             <tr key={item.id}>
                               <td>{index+1}</td>
-                              <td>{item.name}</td>
-                              <td>{item.slug}</td>
+                              <td>{item.comment}</td>
                               <td>
-                                {
-                                  item.status == 0 ? <li className="text-danger">Unpublish</li> :<li class="text-success">Publish</li>
-                                }
+                                <Link to={"/user/details/"+item.user_id} className="text-bold text-primary">{author[index]}</Link>
                               </td>
                               <td>
-                                <img
-                                  src={"http://localhost:8000/source/back/category/"+item.image}
-                                  width="120"
-                                  height="120"
-                                  className="rounded-circle"
-                                />
+                                  <Link to={"/posts/singlepost/"+item.post_id} className="text-bold text-primary">{posts[index]}</Link>
                               </td>
                               <td>
-                                <Link to={"update/"+item.id} key={item.id} title="Click to update">
-                                  <i className="fa fa-edit text-primary"/>
-                                </Link>
-                                <i className="fas ml-2 fa-arrow-down nav-icon text-danger" title="click to publish" onClick={() => categoryPublish(item.id)} style={{ cursor:'pointer' }} />
+                                <i className="fas ml-2 fa-trash-alt nav-icon text-danger" title="Click to hide category" onClick={() => deleteComment(item.id)} style={{ cursor:'pointer' }}/>
                               </td>
                             </tr>
                           ))}
@@ -139,7 +141,7 @@ const Unpublished = () => {
 
         <Footer />
       </>
-    )
+    );
 }
 
-export default Unpublished
+export default Comments

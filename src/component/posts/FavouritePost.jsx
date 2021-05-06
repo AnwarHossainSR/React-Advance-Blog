@@ -12,9 +12,8 @@ import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery'; 
 
-const Manage = () => {
+const FavouritePost = () => {
   const [data, setData] = useState([]);
-  const [postsCount, setPostCount] = useState(0);
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       return <Redirect to="/auth/login"/>
@@ -28,10 +27,9 @@ const Manage = () => {
     
     const getPosts = async () => {
       const response = await axios
-        .get("posts")
+        .get("posts/favorite")
         .catch((error) => console.log(error.resp));
         setData(response.data.posts);
-        setPostCount(response.data.count);
         $(document).ready(function () {
           $("#example1").DataTable();
         });
@@ -39,27 +37,10 @@ const Manage = () => {
     getPosts();
   }
 
-  
-
-
-  async function postPublished(id){
-    await axios
-        .get("post/publish/"+id)
-        .catch((error) => console.log(error.resp));
-    Swal.fire("Published!", "Post has been published.", "success");
-    getData();
-  }
-  async function postHide(id){
-    await axios
-        .get("post/hide/"+id)
-        .catch((error) => console.log(error.resp));
-    Swal.fire("Archived!", "Post has been archived.", "success");
-    getData();
-  }
   async function deletePost(id){
     Swal.fire({
       title: "Are you sure?",
-      text: "You will be able to revert this from trash post!",
+      text: "Post will be remove from favourite list!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -74,9 +55,9 @@ const Manage = () => {
 
   async function successMessage(id) {
     await axios
-        .delete("post/delete/"+id)
+        .delete("post/favorite/delete/"+id)
         .catch((error) => console.log(error.resp));
-    Swal.fire("Deleted!", "Your post has been deleted.", "success");
+    Swal.fire("Deleted!", "Thispost has been remove from favourite.", "success");
     getData();
   }
 
@@ -90,7 +71,7 @@ const Manage = () => {
         <div className="container-fluid">
           <div className="row mb-2 ">
             <div className="col-sm-6">
-              <h1 className="m-0">Total Post : {postsCount}</h1>
+              <h1 className="m-0">Total Favorite Post : {data.length}</h1>
             </div>
             <div className="col-sm-6">
               <ol className="breadcrumb float-sm-right">
@@ -164,17 +145,7 @@ const Manage = () => {
                             />
                           </td>
                           <td>
-                            <Link to={"/post/details/" + item.id} key={item.id}>
-                              <i className="fas fa-info-circle nav-icony mr-2" />
-                            </Link>
                             <i className="ml-2 fa fa-trash-alt text-danger mr-2" onClick={() => deletePost(item.id)}  style={{ cursor:'pointer' }}/>
-                            <Link to={"/post/update/" + item.id} >
-                              <i className="fa ml-2 fa-edit text-primary" />
-                            </Link>
-                            
-                            {
-                              item.status === 'Publish' ? <i className="fas ml-2 fa-arrow-up nav-icon text-success" onClick={() => postHide(item.id)} style={{ cursor:'pointer' }}/>:<i className="fas ml-2 fa-arrow-down nav-icon text-danger" onClick={() => postPublished(item.id)} style={{ cursor:'pointer' }}/>
-                            }
                           </td>
                         </tr>
                       ))}
@@ -192,4 +163,4 @@ const Manage = () => {
   );
 };
 
-export default Manage
+export default FavouritePost

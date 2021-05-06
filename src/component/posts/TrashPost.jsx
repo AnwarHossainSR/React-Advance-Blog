@@ -28,7 +28,7 @@ const Manage = () => {
     
     const getPosts = async () => {
       const response = await axios
-        .get("posts")
+        .get("deleted/posts")
         .catch((error) => console.log(error.resp));
         setData(response.data.posts);
         setPostCount(response.data.count);
@@ -39,27 +39,18 @@ const Manage = () => {
     getPosts();
   }
 
-  
 
-
-  async function postPublished(id){
+  async function postRestore(id){
     await axios
-        .get("post/publish/"+id)
+        .get("deleted/post/restore/"+id)
         .catch((error) => console.log(error.resp));
-    Swal.fire("Published!", "Post has been published.", "success");
-    getData();
-  }
-  async function postHide(id){
-    await axios
-        .get("post/hide/"+id)
-        .catch((error) => console.log(error.resp));
-    Swal.fire("Archived!", "Post has been archived.", "success");
+    Swal.fire("Restored!", "Post has been restored.", "success");
     getData();
   }
   async function deletePost(id){
     Swal.fire({
       title: "Are you sure?",
-      text: "You will be able to revert this from trash post!",
+      text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -74,7 +65,7 @@ const Manage = () => {
 
   async function successMessage(id) {
     await axios
-        .delete("post/delete/"+id)
+        .delete("post/delete/permanent/"+id)
         .catch((error) => console.log(error.resp));
     Swal.fire("Deleted!", "Your post has been deleted.", "success");
     getData();
@@ -106,7 +97,7 @@ const Manage = () => {
               <div className="card">
                 <div className="card-header ">
                   <Link
-                    to="/superadmin/post/create"
+                    to="/superadmin/category/create"
                     className="card-title float-left btn btn-success"
                   >
                     <i className="fas fa-plus-circle nav-icon" />
@@ -164,17 +155,8 @@ const Manage = () => {
                             />
                           </td>
                           <td>
-                            <Link to={"/post/details/" + item.id} key={item.id}>
-                              <i className="fas fa-info-circle nav-icony mr-2" />
-                            </Link>
                             <i className="ml-2 fa fa-trash-alt text-danger mr-2" onClick={() => deletePost(item.id)}  style={{ cursor:'pointer' }}/>
-                            <Link to={"/post/update/" + item.id} >
-                              <i className="fa ml-2 fa-edit text-primary" />
-                            </Link>
-                            
-                            {
-                              item.status === 'Publish' ? <i className="fas ml-2 fa-arrow-up nav-icon text-success" onClick={() => postHide(item.id)} style={{ cursor:'pointer' }}/>:<i className="fas ml-2 fa-arrow-down nav-icon text-danger" onClick={() => postPublished(item.id)} style={{ cursor:'pointer' }}/>
-                            }
+                            <i className="fas ml-2 fa-reply nav-icon text-success" onClick={() => postRestore(item.id)} style={{ cursor:'pointer' }}/>
                           </td>
                         </tr>
                       ))}

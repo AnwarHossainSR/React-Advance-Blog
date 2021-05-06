@@ -3,29 +3,20 @@ import Header from '../mainComponent/Header'
 import Sidebar from '../mainComponent/Sidebar'
 import Footer from '../mainComponent/Footer'
 import { Link, Redirect } from 'react-router-dom'
-import axios from "axios";
+import axios from 'axios'
 import Swal from "sweetalert2";
 
-
-const Create = () => {
+const SendNews = () => {
   
-  const [name,setName]=useState('');
-  const [image,setImage]=useState('');
+  const [subject,setSubject]=useState('');
   const [message,setMessage]=useState('');
+
   async function handleSubmits(e) {
     e.preventDefault();
-    const data = {
-      name: name,
-      image: image
-    };
     axios
-      .post("category/create", data)
+      .post("sendnews", {'subject':subject,'message':message})
       .then((response) => {
-        if(response.data.message === 'Success'){
-          Swal.fire("Success!", 'Category created successfully', "success");
-        }else{
-          setMessage(response.data.message)
-        }
+        Swal.fire("Deleted!", response.data.message, "success");
       }).catch((err) => {
        console.log({ errors: err.data });
       });
@@ -43,11 +34,11 @@ const Create = () => {
             <div className="container-fluid">
               <div className="row mb-2 ">
                 <div className="col-sm-6">
-                  <h1 className="m-0">Category Generate</h1>
+                  <h1 className="m-0">Send News</h1>
                 </div>
                 <div className="col-sm-6">
                   <h1 className="m-0 float-md-right">
-                    <Link to="/superadmin/category/manage">Category List</Link>
+                    <Link to="/superadmin/subscriber/manage">Subscriber List</Link>
                   </h1>
                 </div>
               </div>
@@ -57,27 +48,25 @@ const Create = () => {
                 <div className="row ">
                   <div className="col-12 ">
                     <div className="card">
-                      <h2 className="text-danger text-center">{message != '' ? message:''}</h2>
+                      
                         <div className="card-body">
                           <div className="form-group">
-                            <label>Name</label>
+                            <label >Subscriber</label>
                             <input
                               type="text"
                               className="form-control"
-                              value={name}
-                              placeholder="Write a Category Name"
-                              onChange={(e)=>setName(e.target.value)} 
+                              placeholder="Write your subject"
+                              onChange={(e)=>setSubject(e.target.value)} 
                             />
                           </div>
-                          <div className="form-group-file">
-                          <label>Upload Image</label>
-                            <input
-                              type="file" onChange={(e)=>setImage(e.target.files[0])} className="form-control"
-                            />
+                          <div className="form-group">
+                            <label >Message</label>
+                            <textarea className="form-control" cols="30" rows="10" placeholder="Write your message"
+                              onChange={(e)=>setMessage(e.target.value)} ></textarea>
                           </div>
                           <div className="card-footer">
                             <button type="submit" onClick={handleSubmits} className="btn btn-primary">
-                              Submit
+                              Send
                             </button>
                           </div>
                         </div>
@@ -94,4 +83,4 @@ const Create = () => {
     );
 }
 
-export default Create
+export default SendNews

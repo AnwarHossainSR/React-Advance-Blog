@@ -5,7 +5,7 @@ const Nav = () => {
   
     return (
         <>
-           <nav className="navbar navbar-expand-lg navbar-light bg-dark">
+          <nav className="navbar navbar-expand-lg navbar-light bg-dark">
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto ">
               <li className="nav-item active">
@@ -21,11 +21,6 @@ const Nav = () => {
                         Dashboard
                       </Link>
                     </li>
-                    {/* <li className="nav-item active">
-                      <Link className="nav-link text-white" to="/" onClick={() => localStorage.clear()}>
-                        Logout
-                      </Link>
-                    </li> */}
                   </>
                 ):(
                   <>

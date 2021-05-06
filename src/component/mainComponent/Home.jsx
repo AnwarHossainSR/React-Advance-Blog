@@ -3,7 +3,7 @@ import Nav from './Home/Nav'
 
 const Home = () => {
     return (
-      <div classname="content-wrapper">
+      <div className="">
         <Nav />
         <div className="container">
           <div className="text-center mt-5">

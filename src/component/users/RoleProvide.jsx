@@ -1,28 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../mainComponent/Header'
 import Sidebar from '../mainComponent/Sidebar'
 import Footer from '../mainComponent/Footer'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, useParams } from 'react-router-dom'
 import axios from "axios";
 import Swal from "sweetalert2";
 
 
-const Create = () => {
-  
+const RoleProvide = () => {
+  const {id:eid}=useParams();
+  const [data,setData]=useState([]);
   const [name,setName]=useState('');
-  const [image,setImage]=useState('');
   const [message,setMessage]=useState('');
+
+  useEffect(async () => {
+    axios
+    .get("user/roles")
+    .then((response) => {
+      setData(response.data.roles);
+    }).catch((err) => {
+      setMessage( err.data );
+    });
+},[])
   async function handleSubmits(e) {
     e.preventDefault();
     const data = {
-      name: name,
-      image: image
+      roleName: name,
+      id : eid
     };
     axios
-      .post("category/create", data)
+      .post("role/create", data)
       .then((response) => {
         if(response.data.message === 'Success'){
-          Swal.fire("Success!", 'Category created successfully', "success");
+          Swal.fire("Success!", 'Role provided', "success");
         }else{
           setMessage(response.data.message)
         }
@@ -30,6 +40,7 @@ const Create = () => {
        console.log({ errors: err.data });
       });
   };
+  console.log(name)
   if (!localStorage.getItem('token')) {
     return <Redirect to="/auth/login"/>
   }
@@ -43,7 +54,7 @@ const Create = () => {
             <div className="container-fluid">
               <div className="row mb-2 ">
                 <div className="col-sm-6">
-                  <h1 className="m-0">Category Generate</h1>
+                  <h1 className="m-0">Role Change</h1>
                 </div>
                 <div className="col-sm-6">
                   <h1 className="m-0 float-md-right">
@@ -61,19 +72,15 @@ const Create = () => {
                         <div className="card-body">
                           <div className="form-group">
                             <label>Name</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              value={name}
-                              placeholder="Write a Category Name"
-                              onChange={(e)=>setName(e.target.value)} 
-                            />
-                          </div>
-                          <div className="form-group-file">
-                          <label>Upload Image</label>
-                            <input
-                              type="file" onChange={(e)=>setImage(e.target.files[0])} className="form-control"
-                            />
+                            <select
+                            onChange={(e)=>setName(e.target.value)}
+                            className="form-control"
+                          >
+                             {
+                                data.map((item, index) => (
+                                <option value={item.roleName} key={index}>{item.roleName}</option>
+                            ))} 
+                          </select>
                           </div>
                           <div className="card-footer">
                             <button type="submit" onClick={handleSubmits} className="btn btn-primary">
@@ -94,4 +101,4 @@ const Create = () => {
     );
 }
 
-export default Create
+export default RoleProvide
